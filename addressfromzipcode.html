@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<input type="text" name="" id="postcode" placeholder="3440051">
+	<input type="text" name="" id="address2">
+	<script type="text/javascript" src="jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+
+$(function() {
+	$('#postcode').keypress(function(e) {
+		if( e.which != 13 ) return;
+		var postcode = $('#postcode').val();
+		$.ajax({
+		   type: 'POST',
+		   url: "http://maps.googleapis.com/maps/api/geocode/json?address=" + postcode + "&sensor=false&language=ja",
+		   success: (function(data) {
+              if (data.status === "OK") {
+              	address = data.results[0].address_components[3].long_name + 
+              		data.results[0].address_components[2].long_name + 
+              		data.results[0].address_components[1].long_name;
+				 $('#address2').val(address);
+		      }
+		   })
+		});
+	});
+});
+</script>
+</body>
+</html>
